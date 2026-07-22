@@ -1,0 +1,164 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --background-color: rgb(37, 38, 37);
+    --text-primary: white;
+
+    --margin-small: 0.5rem;
+    --margin-medium: 1rem;
+    --border-radius-sm: 8px;
+}
+
+body {
+    background: var(--background-color);
+    font-family: "Arial", Gadget, sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+    max-width: 500px;
+}
+
+.todoPage-title {
+    color: var(--text-primary);
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: underline;
+}
+
+.task-header {
+    margin-top: 2.5rem;
+    margin-right: auto;
+    color: var(--text-primary);
+}
+
+.todo-form {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.todo-list {
+    color: var(--text-primary);
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: var(--margin-medium);
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: rgb(50, 50, 50);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgb(70, 70, 70);
+    transition: background-color 0.2s ease;
+}
+
+.todo-item:hover {
+    background-color: rgb(60, 60, 60);
+}
+
+.todo-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.todo-text {
+    flex: 1;
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.todo-text.completed {
+    text-decoration: line-through;
+    color: rgb(150, 150, 150);
+}
+
+.todo-input {
+    margin-top: var(--margin-medium);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    font-size: medium;
+}
+
+
+.add-todo-btn {
+    display: inline-block;
+    margin-top: var(--margin-medium);
+    padding: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    background-color: rgb(15, 60, 171);
+    color: var(--text-primary);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: small;
+}
+
+.add-todo-btn:hover {
+    background-color: rgb(48, 90, 194);
+}
+
+
+.delete-modal {
+    margin: auto;
+    padding: 2rem;
+    background-color: rgb(60, 60, 60);
+    color: hsl(0, 0%, 99%);
+    border: 1px solid rgb(100, 100, 100);
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.delete-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 1.5rem;
+}
+
+.cancel-btn {
+    padding: 0.4rem 1rem;
+    border-radius: var(--border-radius-sm);
+    background-color: rgb(100, 100, 100);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: small;
+}
+
+.cancel-btn:hover {
+    background-color: rgb(120, 120, 120);
+}
+
+.delete-btn {
+    display: inline-block;
+    padding: 0.4rem;
+    border-radius: var(--border-radius-sm);
+    background-color: red;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #db0202;
+}
