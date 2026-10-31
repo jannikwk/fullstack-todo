@@ -1,42 +1,52 @@
 package dk.jwk.fullstacktodo.domain;
 
+import dk.jwk.fullstacktodo.domain.valueobjects.TaskContent;
+import dk.jwk.fullstacktodo.domain.valueobjects.TaskId;
+
 public class Task {
-    private Long id;
-    private String taskText;
+    private final TaskId id;
+    private TaskContent content;
     private boolean completed;
 
-    public Task(Long id, String task, boolean completed) {
+    private Task(TaskId id, TaskContent content, boolean completed) {
         this.id = id;
-        this.taskText = task;
+        this.content = content;
         this.completed = completed;
     }
 
-    public Task(String task, boolean completed) {
-        this.taskText = task;
-        this.completed = completed;
+    public static Task create(String text) {
+        return new Task(TaskId.generate(), new TaskContent(text), false);
     }
 
-    public Long getId() {
+    public static Task from(TaskId id, String text, boolean completed) {
+        return new Task(id, new TaskContent(text), completed);
+    }
+
+    public void complete() {
+        this.completed = true;
+    }
+
+    public void reopen() {
+        this.completed = false;
+    }
+
+    public void changeContent(TaskContent newContent) {
+        if (newContent == null) {
+            throw new IllegalArgumentException("New content object cannot be null");
+        }
+
+        this.content = newContent;
+    }
+
+    public TaskId getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTaskText() {
-        return taskText;
-    }
-
-    public void setTaskText(String taskText) {
-        this.taskText = taskText;
+    public TaskContent getTaskContent() {
+        return content;
     }
 
     public boolean isCompleted() {
         return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 }

@@ -5,6 +5,8 @@ import dk.jwk.fullstacktodo.domain.dtos.CreateTaskRequest;
 import dk.jwk.fullstacktodo.domain.dtos.TaskDTO;
 import dk.jwk.fullstacktodo.domain.dtos.UpdateTaskRequest;
 import dk.jwk.fullstacktodo.domain.interfaces.TodoRepository;
+import dk.jwk.fullstacktodo.domain.valueobjects.TaskContent;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class TodoService {
     }
 
     public TaskDTO createTask(CreateTaskRequest request) {
-        Task newTask = new Task(request.taskText(), false);
+        Task newTask = Task.create(request.taskText());
         todoRepository.save(newTask);
         return toDto(newTask);
     }
@@ -30,40 +32,36 @@ public class TodoService {
 
     public TaskDTO getTaskById(Long id) {
         Task task = todoRepository
-            .findById(id)
-            .orElseThrow(() ->
-                new NoSuchElementException("Task with id " + id + " not found")
-            );
+                .findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Task with id " + id + " not found"));
         return toDto(task);
     }
 
     public TaskDTO updateTask(Long id, UpdateTaskRequest request) {
         Task existing = todoRepository
-            .findById(id)
-            .orElseThrow(() ->
-                new NoSuchElementException("Task with id " + id + " not found")
-            );
+                .findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Task with id " + id + " not found"));
 
-        if (request.taskText() != null) existing.setTaskText(
-            request.taskText()
-        );
-        existing.setCompleted(request.completed());
+        if (request.taskText() != null) {
+            existing.changeContent(new TaskContent(request.taskText()));
+        }
+
+        existing.complete();
 
         todoRepository.save(existing);
         return toDto(existing);
     }
 
     public boolean deleteTask(Long id) {
-        if (!todoRepository.existsById(id)) return false;
+        if (!todoRepository.existsById(id)) {
+            return false;
+        }
+
         todoRepository.deleteById(id);
         return true;
     }
 
     private TaskDTO toDto(Task task) {
-        return new TaskDTO(
-            task.getId(),
-            task.getTaskText(),
-            task.isCompleted()
-        );
+        return new TaskDTO(task.getId(), task.getTaskContent(), task.isCompleted());
     }
 }
