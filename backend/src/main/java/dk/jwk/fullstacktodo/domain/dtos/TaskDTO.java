@@ -1,7 +1,6 @@
 package dk.jwk.fullstacktodo.domain.dtos;
 
-import dk.jwk.fullstacktodo.domain.valueobjects.TaskContent;
-import dk.jwk.fullstacktodo.domain.valueobjects.TaskId;
+import java.util.UUID;
 
-public record TaskDTO(TaskId id, TaskContent constent, boolean completed) {
+public record TaskDTO(UUID id, String content, boolean completed) {
 }

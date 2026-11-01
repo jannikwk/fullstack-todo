@@ -1,6 +1,7 @@
 package dk.jwk.fullstacktodo.domain.interfaces;
 
 import dk.jwk.fullstacktodo.domain.Task;
+import dk.jwk.fullstacktodo.domain.valueobjects.TaskId;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +11,9 @@ public interface TodoRepository {
 
     List<Task> findAll();
 
-    Optional<Task> findById(Long id);
+    Optional<Task> findById(TaskId id);
 
-    boolean existsById(Long id);
+    boolean existsById(TaskId id);
 
-    void deleteById(Long id);
+    void deleteById(TaskId id);
 }

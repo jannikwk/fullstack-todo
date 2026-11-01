@@ -2,8 +2,8 @@ import type { Todo } from "../types/Todo.type";
 
 interface TodoItemProps {
     todo: Todo;
-    onToggle: (id: number) => void;
-    onDelete: (id: number) => void;
+    onToggle: (id: string) => void;
+    onDelete: (id: string) => void;
 }
 
 export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
@@ -15,7 +15,7 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
                 onChange={() => onToggle(todo.id)}
                 className="todo-checkbox" />
             <span className={`todo-text ${todo.completed ? 'completed' : ''}`}>
-                {todo.taskText}
+                {todo.content}
             </span>
             <button className="delete-btn" commandfor="deleteModal" command="show-modal">Delete</button>
             <dialog id="deleteModal" className="delete-modal">

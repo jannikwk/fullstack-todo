@@ -13,11 +13,11 @@ export async function createTodo(taskText: string): Promise<Todo> {
     return response.data;
 }
 
-export async function updateTodo(id: number, changes: Partial<Todo>): Promise<Todo> {
+export async function updateTodo(id: string, changes: Partial<Todo>): Promise<Todo> {
     const response = await api.patch(`/api/todos/${id}`, changes);
     return response.data;
 }
 
-export async function deleteTodoApi(id: number): Promise<void> {
+export async function deleteTodoApi(id: string): Promise<void> {
     await api.delete(`/api/todos/${id}`);
 }

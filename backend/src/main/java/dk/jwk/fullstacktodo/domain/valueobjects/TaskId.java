@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public record TaskId(UUID value) {
     public TaskId {
-        if (value == null || value.toString().isEmpty()) {
-            throw new IllegalArgumentException("TaskId cannot be null or empty");
+        if (value == null) {
+            throw new IllegalArgumentException("TaskId cannot be null");
         }
     }
 
@@ -18,6 +18,10 @@ public record TaskId(UUID value) {
             throw new IllegalArgumentException("UUID string cannot be null or empty");
         }
         return new TaskId(UUID.fromString(uuidString));
+    }
+
+    public static TaskId of(UUID value) {
+        return new TaskId(value);
     }
 
     @Override

@@ -17,8 +17,8 @@ export function useTodos() {
             .then(newTodo => setTodos(prev => [...prev, newTodo]))
             .catch(console.error);
 
-    const toggleTodo = (id: number) => {
-        const todo = todos.find(t => t.id == id);
+    const toggleTodo = (id: string) => {
+        const todo = todos.find(t => t.id === id);
         if (!todo) return;
 
         updateTodo(id, { completed: !todo.completed })
@@ -26,7 +26,7 @@ export function useTodos() {
             .catch(console.error);
     }
 
-    const deleteTodo = (id: number) => {
+    const deleteTodo = (id: string) => {
         return deleteTodoApi(id)
         .then(() => setTodos(prev => prev.filter(t => t.id !== id))) 
         .catch(console.error);

@@ -6,6 +6,7 @@ import dk.jwk.fullstacktodo.domain.dtos.TaskDTO;
 import dk.jwk.fullstacktodo.domain.dtos.UpdateTaskRequest;
 import dk.jwk.fullstacktodo.domain.interfaces.TodoRepository;
 import dk.jwk.fullstacktodo.domain.valueobjects.TaskContent;
+import dk.jwk.fullstacktodo.domain.valueobjects.TaskId;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,14 +31,14 @@ public class TodoService {
         return todoRepository.findAll().stream().map(this::toDto).toList();
     }
 
-    public TaskDTO getTaskById(Long id) {
+    public TaskDTO getTaskById(TaskId id) {
         Task task = todoRepository
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task with id " + id + " not found"));
         return toDto(task);
     }
 
-    public TaskDTO updateTask(Long id, UpdateTaskRequest request) {
+    public TaskDTO updateTask(TaskId id, UpdateTaskRequest request) {
         Task existing = todoRepository
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task with id " + id + " not found"));
@@ -46,13 +47,17 @@ public class TodoService {
             existing.changeContent(new TaskContent(request.taskText()));
         }
 
-        existing.complete();
+        if (request.completed()) {
+            existing.complete();
+        } else {
+            existing.reopen();
+        }
 
         todoRepository.save(existing);
         return toDto(existing);
     }
 
-    public boolean deleteTask(Long id) {
+    public boolean deleteTask(TaskId id) {
         if (!todoRepository.existsById(id)) {
             return false;
         }
@@ -62,6 +67,6 @@ public class TodoService {
     }
 
     private TaskDTO toDto(Task task) {
-        return new TaskDTO(task.getId(), task.getTaskContent(), task.isCompleted());
+        return new TaskDTO(task.getId().value(), task.getTaskContent().value(), task.isCompleted());
     }
 }
